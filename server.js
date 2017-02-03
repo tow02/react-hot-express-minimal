@@ -1,5 +1,6 @@
 const express = require('express');
 const webpack = require('webpack');
+const morgan = require('morgan');
 const config = require('./webpack.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -7,9 +8,8 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 function makeApp() {
   const app = express()
 
-
   const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development'
-  
+
   if (env === 'development') {
     const compiler = webpack(config);
     app.use(webpackDevMiddleware(compiler, {
@@ -20,6 +20,8 @@ function makeApp() {
   } else {
     app.use(express.static('assets'));
   }
+
+  if (env !== 'test') app.use(morgan('combined'))
 
   app.use('/time', (req, res) => {
     res.json({
