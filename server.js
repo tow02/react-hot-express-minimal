@@ -18,7 +18,7 @@ function makeApp() {
     }));
     app.use(webpackHotMiddleware(compiler));
   } else {
-    app.use(express.static('assets'));
+    app.use('/assets', express.static(__dirname + 'assets'));
   }
 
   if (env !== 'test') app.use(morgan('combined'))
