@@ -5,12 +5,12 @@ services:
       context: ./nginx_docker
       dockerfile: ./Dockerfile
     ports:
-      - 8080:80
+      - "8080:80"
     depends_on:
       - web
     links:
       - web
   web:
     build: .
-    ports:
-      - 3000:3000
+    expose:
+      - "3000"
